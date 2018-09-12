@@ -5,7 +5,7 @@
 '@author liyunting
 '@version 0.1
 '
-'This file is to use python3 to connectect to mongodb.
+'This file is to use python3 to connect to mongodb.
 '''
 
 import pymongo, sys
