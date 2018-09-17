@@ -32,7 +32,7 @@
 	class user123_mybucket(DynamicDocument): 
 		na = StringField(required = True)  
 		fod = BooleanField(required = True)
-		dir = StringField(required = True)  
+		did = StringField(required = True)  
 		si = FloatField()  
 		ult = DateTimeField()  
 		upt = DateTimeField()  
