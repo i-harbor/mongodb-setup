@@ -29,7 +29,7 @@
 
 	connect('metadata')  
 
-	class user123_mybucket(DynamicDocument): 
+	class User123_mybucket(DynamicDocument): 
 		na = StringField(required = True)  
 		fod = BooleanField(required = True)
 		did = StringField(required = True)  
