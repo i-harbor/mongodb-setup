@@ -9,7 +9,7 @@
 |:-----:|:---:|:---|  
 |**na**|String|name，若该doc代表文件，则na为文件名，若该doc代表目录，则na为目录路径|  
 |**fod**|Boolean|file_or_dir，用于判断该doc代表的是一个文件还是一个目录，若fod为True，则是文件，若fod为False，则是目录|  
-|**did**|String|所在目录的objectID，若该doc代表文件，则did为该文件所属目录的id，若该doc代表目录，则did为该目录的上一级目录(父目录)的id|  
+|**did**|ObjectId|所在目录的objectID，若该doc代表文件，则did为该文件所属目录的id，若该doc代表目录，则did为该目录的上一级目录(父目录)的id|  
 |**si**|Float|文件大小,若该doc代表文件，则si为该文件的大小，若该doc代表目录，则si为空|  
 |**ult**|Date|upload_time，若该doc代表文件，则ult为该文件的上传时间，若该doc代表目录，则ult为该目录的创建时间|  
 |**upt**|Date|update_time，若该doc代表文件，则upt为该文件的最近修改时间，若该doc代表目录，则upt为空|  
@@ -32,7 +32,7 @@
 	class User123_mybucket(DynamicDocument): 
 		na = StringField(required = True)  
 		fod = BooleanField(required = True)
-		did = StringField(required = True)  
+		did = ObjectIdField(required = True)  
 		si = FloatField()  
 		ult = DateTimeField()  
 		upt = DateTimeField()  
