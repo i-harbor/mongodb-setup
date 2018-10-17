@@ -59,12 +59,16 @@ def process_one_file(filepath, dir_path, filename, cover_mode):
 	'对普通文件进行处理
 	'若该文件记录已在db中存在，按照cover_mode进行覆盖或跳过操作，若文件在db中不存在，则添加到db中
 	'''
-	if cover_mode: # 覆盖模式
-		dirId = getDirId(dir_path) # 获取文件所在目录的id
-		size = os.path.getsize(filepath) # 获取文件大小，单位字节
-		if isFileExists(filename, dirId): # 若文件在db已存在
+	dirId = getDirId(dir_path) # 获取文件所在目录的id
+	if isFileExists(filename, dirId) : # 若文件在db已存在
+		if cover_mode :
 			for u in User_bucket.objects(Q(na = filename) & Q(did = dirId)): # 删除原记录
 				u.delete()
+			size = os.path.getsize(filepath) # 获取文件大小，单位字节
+			f = User_bucket(na = filename, fod = True, did = dirId, si = size) # 添加新纪录
+			f.save()
+	else :
+		size = os.path.getsize(filepath) # 获取文件大小，单位字节
 		f = User_bucket(na = filename, fod = True, did = dirId, si = size) # 添加新纪录
 		f.save()
 
