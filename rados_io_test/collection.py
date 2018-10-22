@@ -10,7 +10,7 @@ from mongoengine import *
 
 '''
 '在db中创建一个collection
-'User_bucket : collection名
+'Mybucket : collection名
 '并定义collection中每个doc的字段及其类型
 '''
 class Mybucket(DynamicDocument):
