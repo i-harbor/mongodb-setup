@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 '''
-'@file: scanDirPath.py
+'@file: scanDirPathAndRados.py
 '@author: liyunting
 '''
 
