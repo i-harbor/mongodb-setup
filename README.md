@@ -17,7 +17,10 @@
  字段 field 的类型我们采用了 mongoengine 中的 field 类型，具体可参见 mongoengine 的官方说明文档 http://docs.mongoengine.org/guide/defining-documents.html#fields  
  
 ### 3 scan_directory  
-  scan_directory 是通过扫描目录，将目录下的所有文件和子目录的元数据都存储到 mongodb 中，具体说明可参见 scan_directory 目录下的readme文档。
+  scan_directory 是通过扫描目录，将目录下的所有文件和子目录的元数据都存储到 mongodb 中，具体说明可参见 scan_directory 目录下的readme文档。  
+
+### 4 rados_io_test  
+  rados_io_test 是对 rados 对象读写进行测试，具体说明可参见 rados_io_test 目录下的 readme 文档。  
  
 
  
