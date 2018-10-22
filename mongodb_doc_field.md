@@ -2,7 +2,7 @@
 
 ### 说明：
 我们在mongodb中创建一个名为“metadata”的数据库，用于存放元数据。  
-在该数据库下，我们为每个bucket创建一个名为bucketname的collection。
+在该数据库下，我们为每个bucket创建一个名为bucketname的collection。  
 collection中的每个document为该存储桶下存储的文件或目录的元数据信息。
 
 ### document中字段设计如下表 ：  
