@@ -2,7 +2,8 @@
 
 ### 说明：
 我们在mongodb中创建一个名为“metadata”的数据库，用于存放元数据。  
-在该数据库下，我们为每个用户的每个bucket创建一个名为“username_bucketname”的collection。  
+在该数据库下，我们为每个bucket创建一个名为bucketname的collection。
+collection中的每个document为该存储桶下存储的文件或目录的元数据信息。
 
 ### document中字段设计如下表 ：  
 |字段名|类型|说明|  
@@ -23,13 +24,13 @@
 |**set**|Date|share_end_time，若该doc代表文件，允许共享且有时间限制，则sst为该文件的共享终止时间，若该doc代表目录，则set为空|  
 
 ### 附：
-假设用户名为“user123”的用户创建了一个名为“mybucket”的bucket，则在mongodb的metadata数据库中，有collection及其中doc字段如下：
+假设某用户创建了一个名为“mybucket”的bucket，则在mongodb的metadata数据库中，有collection及其中doc字段如下：
 
 	from mongoengine import *  
 
 	connect('metadata')  
 
-	class User123_mybucket(DynamicDocument): 
+	class Mybucket(DynamicDocument): 
 		na = StringField(required = True)  
 		fod = BooleanField(required = True)
 		did = ObjectIdField()  
