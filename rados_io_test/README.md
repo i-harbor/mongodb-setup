@@ -33,7 +33,7 @@
 在 readRados.py 的 main() 方法中修改 connect() 方法中的参数的值，三个参数分别代表 数据库名，ip，端口 
 
 * **设置要读取的文件名**  
-在 readRados.py 的 main() 方法中修改变量：filename，fileDir
+在 readRados.py 的 main() 方法中修改变量：filename，filedir
 
 * **设置 mongodb 中集合的名字**   
 需修改 function.py 中的变量：collection_name，当前为'bucket0'  
