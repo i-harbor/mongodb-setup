@@ -24,6 +24,5 @@
  在 scanDirPath.py 中修改 break_names 的值  
  
 * **设置 mongodb 中集合的名字**  
- 需修改 collection.py 中的类名，当前为 user_bucket  
- 同时需相应地修改 scanDirPath.py 和 function.py 中出现的 user_bucket  
+ 需修改 function.py 中的变量：collection_name ，当前为 'bucket0' 
  
