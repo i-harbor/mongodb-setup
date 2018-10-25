@@ -4,7 +4,7 @@
 * scanDirPathAndRados.py   
 含主方法 main(), 扫描给定目录,将子目录和文件的元数据存储到 mongodb 中, 并将文件以 rados 对象的形式存储到 ceph 集群中   
 * collection.py            
-定义 mongodb 中 collection 的字段，即 mongoengine 的 module，字段详细解释参见 ../mongodb_doc_field.md  
+定义 mongodb 中 collection 的字段，即 mongoengine 的 model，字段详细解释参见 ../mongodb_doc_field.md  
 * function.py              
 定义若干函数，供 scanDirPathAndRados.py 中调用    
 * readRados.py             
