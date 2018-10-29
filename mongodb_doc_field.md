@@ -22,20 +22,28 @@ collection中的每个document为该存储桶下存储的文件或目录的元�
 |**stl**|Boolean|share_time_limit，若该doc代表文件，且允许共享，则stl用于判断该文件是否有共享时间限制，若stl为True，则文件有共享时间限制，若stl为False，则文件无共享时间限制，且sst，set等字段为空；若该doc代表目录，则stl为空|  
 |**sst**|Date|share_start_time，若该doc代表文件，允许共享且有时间限制，则sst为该文件的共享起始时间，若该doc代表目录，则sst为空|  
 |**set**|Date|share_end_time，若该doc代表文件，允许共享且有时间限制，则sst为该文件的共享终止时间，若该doc代表目录，则set为空|  
+|**sds**|Boolean|soft delete status,标记文件或目录是否软删除，True(删除)，False(正常)
 
 ### 附：
 假设某用户创建了一个名为“mybucket”的bucket，则在mongodb的metadata数据库中，有collection及其中doc字段如下：
 
+	from datetime import datetime
+	
 	from mongoengine import *  
 
 	connect('metadata')  
 
 	class Mybucket(DynamicDocument): 
+		SOFT_DELETE_STATUS_CHOICES = (
+		    (True, '删除'),
+		    (False, '正常'),
+		)
+		    
 		na = StringField(required = True)  
 		fod = BooleanField(required = True)
 		did = ObjectIdField()  
 		si = LongField()  
-		ult = DateTimeField()  
+		ult = DateTimeField(default=datetime.utcnow)  
 		upt = DateTimeField()  
 		dlc = IntField()  
 		bac = ListField(StringField())  
@@ -45,5 +53,10 @@ collection中的每个document为该存储桶下存储的文件或目录的元�
 		stl = BooleanField()  
 		sst = DateTimeField()  
 		set = DateTimeField()  
-
+		sds = fields.BooleanField(default=False, choices=SOFT_DELETE_STATUS_CHOICES)
+		
+		def do_soft_delete(self):
+		    '''软删除'''
+		    self.sds = True
+		    self.save()
 
