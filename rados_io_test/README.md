@@ -6,9 +6,7 @@
 * collection.py            
 定义 mongodb 中 collection 的字段，即 mongoengine 的 model，字段详细解释参见 ../mongodb_doc_field.md  
 * function.py              
-定义若干函数，供 scanDirPathAndRados.py 中调用    
-* readRados.py             
-含主方法 main(), 给定文件名和文件路径，先到 mongodb 中获取元数据，再从 rados 读取相应对象    
+定义若干函数，供 scanDirPathAndRados.py 中调用        
 * rados.so                 
 so动态库，含 rados 读写等接口，供.py 文件调用  
 
@@ -34,15 +32,7 @@ so动态库，含 rados 读写等接口，供.py 文件调用
 * **设置 mongodb 中集合的名字**  
  需修改 function.py 中的变量：collection_name，当前为'bucket0'
  
-### 3 读 rados 使用说明   
-* **设置 mongodb 连接信息**  
-在 readRados.py 的 main() 方法中修改 connect() 方法中的参数的值，三个参数分别代表 数据库名，ip，端口 
 
-* **设置要读取的文件名**  
-在 readRados.py 的 main() 方法中修改变量：filename，filedir
-
-* **设置 mongodb 中集合的名字**   
-需修改 function.py 中的变量：collection_name，当前为'bucket0'  
 
 
  

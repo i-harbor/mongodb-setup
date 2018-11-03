@@ -7,6 +7,7 @@
 '''
 
 import os
+import sys
 from mongoengine import *
 from collection import Mybucket
 from function import *
@@ -51,13 +52,19 @@ def process_one_path(path, cover_mode, system_mode):
 
 		if os.path.isdir(current_path): # 若是目录
 			if not isDirExists(current_path): # 若该目录在db中不存在
-				parentId = getDirId(path) # 获取父目录的id
-				with switch_collection(Mybucket, collection_name) as Mybucket:
-					Mybucket(na = current_path, fod = False, did = parentId).save() # 创建对象并添加到db
+				if isDirExists(path): #判断其父目录是否存在，若存在
+					parentId = getDirId(path) # 获取父目录的id
+					with switch_collection(Mybucket, collection_name) as Mybucket:
+						Mybucket(na = current_path, fod = False, did = parentId).save() # 创建对象并添加到db
+				else:
+					print("Error: no parent path")
+					sys.exit()
 			process_one_path(current_path, cover_mode, system_mode) # 继续递归地处理子目录下的文件与目录
 
 		elif os.path.isfile(current_path): # 若是普通文件
 			process_one_file(current_path, path, file, cover_mode) # 对文件进行处理
+		else :
+			print("Warning: ", current_path, " is not a file or path")
 
 	recursive_flag = recursive_flag - 1  # 该层递归结束，层级减1
 
@@ -75,7 +82,7 @@ def process_one_file(filepath, dir_path, filename, cover_mode):
 				for u in Mybucket.objects(Q(na = filename) & Q(did = dirId)): # 删除原记录和对象
 					object_to_delete = getObjectId(filename, dirId)  #对象名
 					delete_object(str(object_to_delete)) #删除rados对象
-					u.delete()
+					u.do_soft_delete()  #mongodb中软删除
 				size = os.path.getsize(filepath) # 获取文件大小，单位字节
 				Mybucket(na = filename, fod = True, did = dirId, si = size).save() # 添加新纪录
 				obj_name = getObjectId(filename, dirId)
@@ -103,7 +110,7 @@ def main():
 	connect("test0", host = '10.0.86.201', port=27017)
 
 	# 设置待扫描的目录路径
-	dir_path = '/root/mycephtest'
+	dir_path = '/root/mycephtest/'
 
 	# 去掉目录路径后的'/'符号
 	if dir_path != '/':
