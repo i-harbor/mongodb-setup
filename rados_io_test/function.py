@@ -155,7 +155,6 @@ def storeToRados(object_name, f, size):
 		rest_size = size - offset
 		if rest_size < chunk_size : #当剩余文件大小不足块大小，全部写入
 			data = f.read(rest_size)
-			print()
 			try:
 				result = ToObj(cluster_name, user_name, conf_file, pool_name, oid, data, rest_size, mode, ctypes.c_ulonglong(offset)) # return. Type:RetType
 				info = ctypes.string_at(result.y,result.z) # The error or success description(y:the address of the characters; z:the offset of the characters). Type:bytes
@@ -172,7 +171,6 @@ def storeToRados(object_name, f, size):
 
 		else : #当剩余文件大小超过块大小，写入块大小
 			data = f.read(chunk_size)
-			print()
 			try:
 				result = ToObj(cluster_name, user_name, conf_file, pool_name, oid, data, chunk_size, mode, ctypes.c_ulonglong(offset)) # return. Type:RetType
 				info = ctypes.string_at(result.y,result.z) # The error or success description(y:the address of the characters; z:the offset of the characters). Type:bytes
@@ -204,7 +202,6 @@ def delete_object(object_name):
 	pool_name    = "objstore".encode('utf-8') # pool名称. type:bytes
 	oid          = object_name.encode('utf-8') # object id. type:bytes
 	
-	print()
 	try:
 		result = DelObj(cluster_name, user_name, conf_file, pool_name, oid) # return. Type:RetType
 		info = ctypes.string_at(result.y,result.z) # The error or success description(y:the address of the characters; z:the offset of the characters). Type:bytes
@@ -241,7 +238,6 @@ def readFromRados(object_name, size):
 	while offset < size :
 		rest_size = size - offset #剩余对象大小	
 		if rest_size < chunk_size : #当剩余对象大小小于块大小，读取全部剩余对象
-			print()
 			try:
 				result = FromObj(cluster_name, user_name, conf_file, pool_name, rest_size, oid, ctypes.c_ulonglong(offset)) # return. Type:RetType
 				byteout = ctypes.string_at(result.y,result.z) # The error or success description(y:the address of the characters; z:the offset of the characters). Type:bytes
@@ -256,7 +252,6 @@ def readFromRados(object_name, size):
 					print(object_name, ": wrongly read from rados")
 					sys.exit()
 		else : #当剩余对象大小大于块大小，读取块大小
-			print()
 			try:
 				result = FromObj(cluster_name, user_name, conf_file, pool_name, chunk_size, oid, ctypes.c_ulonglong(offset)) # return. Type:RetType
 				byteout = ctypes.string_at(result.y,result.z) # The error or success description(y:the address of the characters; z:the offset of the characters). Type:bytes
