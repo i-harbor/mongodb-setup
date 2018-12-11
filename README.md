@@ -1,4 +1,4 @@
-##  mongodb_api_test   
+##  mongodb   
 ###  1 mongotest.py
  mongotest.py 是使用 Python 连接 Mongodb, 并对 Mongodb 执行操作。
 
