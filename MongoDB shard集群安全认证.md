@@ -387,6 +387,16 @@ db.getSiblingDB("admin").auth("admin", "admin" )
 *注：用户在哪个数据库下创建，认证时就需要到那个数据库进行，因而创建时需先切换数据库*
 ```
 切换数据库
+use admin
+创建超级用户
+db.createUser(
+  {
+    "user" : "root",
+    "pwd" : "root",
+    roles: [ { "role" : "root", "db" : "admin" } ]
+  }
+)
+切换数据库
 use wjt
 创建用户
 db.createUser(
@@ -416,16 +426,6 @@ db.createUser(
     roles: [ { "role" : "dbOwner", "db" : "lyt" } ]
   }
 )
-切换数据库
-use sl
-创建用户
-db.createUser(
-  {
-    "user" : "sl",
-    "pwd" : "sl",
-    roles: [ { "role" : "dbOwner", "db" : "sl" } ]
-  }
-)
 ```
 查看所有用户
 ```
@@ -446,25 +446,33 @@ use wjt
 db.auth('wjt','wjt')
 ```
 
+#### 补充说明  
+按照上述方式添加配置的用户角色只能在任意 mongos 和 config servers 的 mongod 实例上登录，不能在 shard 分片的 mongod 上进行登录，若登录将提示认证失败 
 
+**原因是集群用户不能直接认证到某个 shard 的某个节点，shard 节点需单独创建用户**   
 
+在某个 shard 节点上创建的用户称为 Shard Local Users，它和通过 mongos 创建的用户是完全独立的，Shard Local Users 只能在自己的 shard 上进行认证，不能在 mongos 上进行认证  
 
+另外，对于副本集而言，不能在仲裁节点(arbiter)上创建或认证用户  
 
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
+因此，如需直接在某个 shard 的节点上执行需要认证的命令，可使用如下方式：  
+```
+连接到 shard1 的主节点（10.0.86.206）
+mongo --port 27001
+进入mongo shell界面后，执行
+db.getSiblingDB("admin").createUser(
+  {
+    "user" : "root",
+    "pwd" : "root",
+    roles: [ { "role" : "root", "db" : "admin" } ]
+  }
+)
+可在 shard1 上成功创建超级用户
+认证用户
+use admin
+db.auth('root','root')
+获取状态
+db.serverStatus()
+```
 
 
